@@ -1,0 +1,25 @@
+#created by xuqifeng
+
+#! /bin/sh
+
+LogPath="/var/log/squid/access.log"
+lnPath="/var/log/ln_access"
+
+if [ ! -d "$lnPath" ];then
+    mkdir "$lnPath" 
+fi
+
+if [ -f "$LogPath" ];then
+    /usr/sbin/squid -k rotate
+fi
+
+#ln -s /var/log/access.log.* $lnPath
+for file in ${LogPath}.*; do
+    echo $file
+    ln $file $lnPath
+done
+
+rm -f ${LogPath}.*
+
+
+
